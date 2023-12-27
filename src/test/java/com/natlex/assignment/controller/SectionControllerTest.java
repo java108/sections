@@ -164,9 +164,6 @@ class SectionControllerTest {
 		
 		//More tests can be added here		
 }
-
-		
-
 	
 
 	private Section createTestSection() {

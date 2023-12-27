@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
@@ -27,6 +28,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.natlex.assignment.Status;
+import com.natlex.assignment.impex.ExcelImporter;
 import com.natlex.assignment.model.GeologicalType;
 import com.natlex.assignment.model.Section;
 import com.natlex.assignment.repository.SectionRepository;
@@ -150,6 +152,17 @@ class SectionControllerTest {
          .andExpect(header().string("Content-Disposition", "attachment; filename="+jobid+".xlsx"))
          .andExpect(content().contentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")).andReturn();
 		
+		//read the file again as earlier stream was closed
+		inputStream = getClass().getResourceAsStream("/test_input_sections.xlsx");
+		
+		List<Section> exportedSections = ExcelImporter.importSectionsFromExcel(new ByteArrayInputStream(mvcResult.getResponse().getContentAsByteArray()));
+		List<Section> origSections = ExcelImporter.importSectionsFromExcel(inputStream);
+		
+		assertEquals(exportedSections.size(), origSections.size());
+		assertEquals(exportedSections.get(0).getName(), origSections.get(0).getName());
+		assertEquals(exportedSections.get(0).getGeologicalClasses().size(), origSections.get(0).getGeologicalClasses().size());
+		
+		//More tests can be added here		
 }
 
 		

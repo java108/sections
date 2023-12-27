@@ -27,7 +27,7 @@ public class SectionImportService {
         try {
             // Parse the Excel file and save results to the database asynchronously
         	LOGGER.info("Started importing {}", jobId);
-        	//Thread.sleep(10000);
+        	
         	importJobs.put(jobId, Status.IN_PROGRESS);
             List<Section> sections = ExcelImporter.importSectionsFromExcel(inpStream);
             // Save sections to the database (use SectionRepository)

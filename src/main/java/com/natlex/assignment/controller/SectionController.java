@@ -74,7 +74,11 @@ public class SectionController {
 		String jobId = sectionService.importSectionsAsync(file);
 		return ResponseEntity.ok(jobId);
 	}
-
+	/**
+	 * Retrieves job status for given id
+	 * @param id
+	 * @return
+	 */
 	@GetMapping("/import/{id}")
 	public ResponseEntity<String> getImportStatus(@PathVariable String id) {
 		Status status = sectionService.getImportStatus(id);
@@ -94,6 +98,12 @@ public class SectionController {
 		return ResponseEntity.ok(jobId);
 	}
 
+	/**
+	 * Retrieves job status for given id
+	 * @param id
+	 * @return
+	 */
+	
 	@GetMapping("/export/{id}")
 	public ResponseEntity<String> getExportStatus(@PathVariable String id) {
 		ExportStatus status = sectionService.getExportStatus(id);
